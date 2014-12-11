@@ -1,6 +1,8 @@
 conf.js
 ========
 
+[![npm version](https://badge.fury.io/js/conf.js.svg)](http://badge.fury.io/js/conf.js)
+
 conf.js allows you to get per-user and per-project configuration files out of the box.
 
 Look how easy it is to use:
