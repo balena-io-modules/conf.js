@@ -1,0 +1,42 @@
+{
+  "name": "conf.js",
+  "version": "0.1.1",
+  "description": "Support per-user and per-project configuration files out of the box",
+  "main": "build/conf.js",
+	"homepage": "https://github.com/resin-io/conf.js",
+	"repository": {
+		"type": "git",
+		"url": "git://github.com/resin-io/conf.js.git"
+	},
+	"keywords": [
+		"cli",
+		"conf",
+		"project",
+		"configuration"
+	],
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "gulp test",
+		"prepublish": "gulp build"
+  },
+  "author": "Juan Cruz Viotti <juanchiviotti@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "lodash-contrib": "^241.4.14"
+  },
+  "devDependencies": {
+    "chai": "^1.10.0",
+    "coffee-script": "^1.8.0",
+    "gulp": "~3.8.10",
+    "gulp-coffeelint": "^0.4.0",
+    "gulp-mocha": "^2.0.0",
+    "mocha": "^2.0.1",
+    "mocha-notifier-reporter": "^0.1.0",
+    "mock-fs": "^2.3.2",
+    "sinon": "^1.12.1",
+    "gulp-coffee": "~2.2.0",
+    "gulp-util": "~3.0.1"
+  }
+}
