@@ -2,6 +2,7 @@ conf.js
 ========
 
 [![npm version](https://badge.fury.io/js/conf.js.svg)](http://badge.fury.io/js/conf.js)
+[![dependencies](https://david-dm.org/resin-io/conf.js.png)](https://david-dm.org/resin-io/conf.js.png)
 [![Build Status](https://travis-ci.org/resin-io/conf.js.svg?branch=master)](https://travis-ci.org/resin-io/conf.js)
 
 conf.js allows you to get per-user and per-project configuration files out of the box.
