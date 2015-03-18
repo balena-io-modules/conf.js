@@ -161,16 +161,13 @@ describe 'ConfJS:', ->
 	describe 'given a supplied user config default', ->
 
 		options =
-			keys:
-				userConfig: 'config.user'
+			userConfig: '/Users/johndoe/.conf/config'
 			default:
 				remoteUrl: 'https://google.com'
-				config:
-					user: '/Users/johndoe/.conf/config'
 
 		filesystem =
 			userConfig:
-				name: options.default.config.user
+				name: options.userConfig
 				contents: JSON.stringify
 					remoteUrl: 'https://google.com'
 
@@ -189,22 +186,18 @@ describe 'ConfJS:', ->
 	describe 'given a supplied user and local config', ->
 
 		options =
-			keys:
-				userConfig: 'config.user'
-				localConfig: 'config.local'
+			userConfig: '/Users/johndoe/.conf/config'
+			localConfig: '.localconf'
 			default:
 				remoteUrl: 'https://google.com'
-				config:
-					user: '/Users/johndoe/.conf/config'
-					local: '.localconf'
 
 		filesystem =
 			localConfig:
-				name: path.join(process.cwd(), options.default.config.local)
+				name: path.join(process.cwd(), options.localConfig)
 				contents: JSON.stringify
 					remoteUrl: 'https://facebook.com'
 			userConfig:
-				name: options.default.config.user
+				name: options.userConfig
 				contents: JSON.stringify
 					remoteUrl: 'https://apple.com'
 
@@ -223,70 +216,6 @@ describe 'ConfJS:', ->
 			expectedResult = _.extend(defaultsCopy, parsedUserConfig, parsedLocalConfig)
 			expect(@conf._data).to.deep.equal(expectedResult)
 
-	describe 'given supplied keys', ->
-
-		keys =
-			userConfig: 'config.user'
-			localConfig: 'config.local'
-
-		beforeEach ->
-			@conf = new ConfJS({ keys })
-
-		describe '#_getOptionKey()', ->
-
-			it 'should be able to get a key', ->
-				result = @conf._getOptionKey('userConfig')
-				expect(result).to.equal(keys.userConfig)
-
-			it 'should return undefined if no input', ->
-				result = @conf._getOptionKey()
-				expect(result).to.be.undefined
-
-			it 'should return undefined if key does not exist', ->
-				result = @conf._getOptionKey('nonexistentkey')
-				expect(result).to.be.undefined
-
-	describe 'given a user config that changes the local config file name', ->
-		options =
-			keys:
-				userConfig: 'config.user'
-				localConfig: 'config.local'
-			default:
-				remoteUrl: 'https://google.com'
-				config:
-					user: '/Users/johndoe/.conf/config'
-					local: '.localconf'
-
-		newLocalConfig = '.confrc'
-
-		filesystem =
-			userConfig:
-				name: options.default.config.user
-				contents: JSON.stringify
-					config:
-						local: newLocalConfig
-			localConfig:
-				name: path.join(process.cwd(), newLocalConfig)
-				contents: JSON.stringify
-					remoteUrl: 'https://apple.com'
-
-		beforeEach ->
-			mockfsInit(filesystem)
-			@conf = new ConfJS(options)
-
-		afterEach ->
-			mockFs.restore()
-
-		it 'should make use of the renamed config file name', ->
-			parsedUserConfig = JSON.parse(filesystem.userConfig.contents)
-			parsedLocalConfig = JSON.parse(filesystem.localConfig.contents)
-			defaultsCopy = _.cloneDeep(options.default)
-
-			expect(@conf._getLocalConfigPath()).to.equal(filesystem.localConfig.name)
-
-			expectedResult = _.extend(defaultsCopy, parsedUserConfig, parsedLocalConfig)
-			expect(@conf._data).to.deep.equal(expectedResult)
-
 	describe '#parse()', ->
 
 		beforeEach ->
@@ -300,9 +229,9 @@ describe 'ConfJS:', ->
 
 		it 'should be able to replace parse function with options', ->
 			parseFunction = _.identity
-			@conf = new ConfJS(configFileParse: parseFunction)
+			@conf = new ConfJS(parse: parseFunction)
 
-			expect(@conf._options.configFileParse).to.equal(parseFunction)
+			expect(@conf._options.parse).to.equal(parseFunction)
 			input = 'Hello'
 			result = @conf.parse(input)
 			expect(result).to.equal(input)
@@ -312,11 +241,7 @@ describe 'ConfJS:', ->
 		it 'should contruct the path correctly', ->
 			filename = 'localconfig'
 			@conf = new ConfJS
-				keys:
-					localConfig: 'config.local'
-				default:
-					config:
-						local: filename
+				localConfig: filename
 
 			expectedPath = path.join(process.cwd(), filename)
 			expect(@conf._getLocalConfigPath()).to.equal(expectedPath)

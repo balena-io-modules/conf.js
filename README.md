@@ -15,13 +15,9 @@ path = require('path')
 ConfJS = require('conf.js')
 
 module.exports = new ConfJS
-	keys:
-		userConfig: 'configurationFiles.user'
-		localConfig: 'configurationFiles.project'
+	userConfig: path.join(process.env.HOME, '.myprojectrc.json')
+	localConfig: '.myprojectrc.json'
 	default:
-		configurationFiles:
-			user: path.join(process.env.HOME, '.myprojectrc.json')
-			project: '.myprojectrc.json'
 
 		# Your usual application settings
 		port: '9999'
@@ -48,11 +44,11 @@ Features
 
 - Per-user configuration file:
 
-Specify `keys.userConfig` to the defaults key that contains the user configuration file path.
+Specify `userConfig` to the user configuration file path.
 
 - Per-project configuration files:
 
-Specify `keys.localConfig` to the defaults key that contains the local configuration file path.
+Specify `localConfig` to the local configuration file name.
 
 Installation
 ------------
@@ -72,10 +68,11 @@ Create an instance of settings.
 
 The following options are accepted:
 
-- `configFileParse`: The function used to parse inputs (defaults to `JSON.parse`).
+- `parse`: The function used to parse inputs (defaults to `JSON.parse`).
 - `encoding`: The encoding to be used when reading files (defaults to `utf8`).
 - `default`: Default settings.
-- `keys`: Provide semantic meaning to settings values, so `conf.js` can interpret them accordingly.
+- `userConfig`: The user config file path.
+- `localConfig`: The user local file name.
 
 ### settings.extendWithFile(file)
 
@@ -115,7 +112,7 @@ Check if settings object is empty.
 
 ### settings.parse(input)
 
-Parse input given a function passed to `options.configFileParse`.
+Parse input given a function passed to `options.parse`.
 
 Tests
 -----

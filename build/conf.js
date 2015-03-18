@@ -11,11 +11,11 @@ ConfJS = (function() {
   function ConfJS(_options) {
     this._options = _options != null ? _options : {};
     _.defaults(this._options, {
-      configFileParse: JSON.parse,
+      parse: JSON.parse,
       encoding: 'utf8'
     });
     this._data = this._options["default"] || {};
-    this.extendWithFile(this._getOptionWithKey('userConfig'));
+    this.extendWithFile(this._options.userConfig);
     this.extendWithFile(this._getLocalConfigPath());
   }
 
@@ -33,7 +33,10 @@ ConfJS = (function() {
   };
 
   ConfJS.prototype.get = function(key) {
-    return this._getKeyFromObject(this._data, key);
+    if (key == null) {
+      return;
+    }
+    return _.getPath(this._data, key);
   };
 
   ConfJS.prototype.has = function(key) {
@@ -51,30 +54,12 @@ ConfJS = (function() {
   };
 
   ConfJS.prototype.parse = function(input) {
-    return this._options.configFileParse(input);
-  };
-
-  ConfJS.prototype._getKeyFromObject = function(object, key) {
-    if (key == null) {
-      return;
-    }
-    return _.getPath(object, key);
-  };
-
-  ConfJS.prototype._getOptionKey = function(key) {
-    return this._getKeyFromObject(this._options.keys, key);
-  };
-
-  ConfJS.prototype._getOptionWithKey = function(key) {
-    var get, getOptionKey;
-    get = _.bind(this.get, this);
-    getOptionKey = _.bind(this._getOptionKey, this);
-    return _.compose(get, getOptionKey)(key);
+    return this._options.parse(input);
   };
 
   ConfJS.prototype._getLocalConfigPath = function() {
     var localConfigFile;
-    localConfigFile = this._getOptionWithKey('localConfig');
+    localConfigFile = this._options.localConfig;
     if (localConfigFile == null) {
       return;
     }
