@@ -98,6 +98,8 @@ Notice you can get nested keys:
 settings.get('my.nested.key')
 ```
 
+If you pass no key to `settings.get()`, then you will get back all the settings.
+
 ### settings.has(key)
 
 Check if settings has a specific key.

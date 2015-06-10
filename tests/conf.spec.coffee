@@ -49,8 +49,16 @@ describe 'ConfJS:', ->
 			it 'should return undefined if value does not exist', ->
 				expect(@conf.get('unknownKey')).to.be.undefined
 
-			it 'should return undefined if no key', ->
-				expect(@conf.get()).to.be.undefined
+			it 'should return all keys if no key', ->
+				@conf._data =
+					foo: 'bar'
+					baz:
+						quz: 'hey'
+
+				expect(@conf.get()).to.deep.equal
+					foo: 'bar'
+					baz:
+						quz: 'hey'
 
 		describe '#has()', ->
 
