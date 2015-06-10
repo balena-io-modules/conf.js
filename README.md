@@ -147,6 +147,13 @@ TODO
 
 - Allow to set a custom configuration file with a command line option.
 
+ChangeLog
+---------
+
+### v1.1.0
+
+- The `get()` function returns all settings if no key.
+
 License
 -------
 
