@@ -1,5 +1,5 @@
-var ConfJS, fs, path, _,
-  __slice = [].slice;
+var ConfJS, _, fs, path,
+  slice = [].slice;
 
 _ = require('lodash-contrib');
 
@@ -34,7 +34,7 @@ ConfJS = (function() {
 
   ConfJS.prototype.get = function(key) {
     if (key == null) {
-      return;
+      return this._data;
     }
     return _.getPath(this._data, key);
   };
@@ -45,8 +45,8 @@ ConfJS = (function() {
 
   ConfJS.prototype.extend = function() {
     var objects;
-    objects = 1 <= arguments.length ? __slice.call(arguments, 0) : [];
-    return _.extend.apply(_, [this._data].concat(__slice.call(objects)));
+    objects = 1 <= arguments.length ? slice.call(arguments, 0) : [];
+    return _.extend.apply(_, [this._data].concat(slice.call(objects)));
   };
 
   ConfJS.prototype.isEmpty = function() {

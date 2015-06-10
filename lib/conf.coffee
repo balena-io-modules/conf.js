@@ -24,7 +24,7 @@ class ConfJS
 		@_data[key] = value
 
 	get: (key) ->
-		return if not key?
+		return @_data if not key?
 		return _.getPath(@_data, key)
 
 	has: (key) ->
