@@ -8,7 +8,7 @@ class ConfJS
 			parse: JSON.parse
 			encoding: 'utf8'
 
-		@_data = @_options.default or {}
+		@_data = _.cloneDeep(@_options.default) or {}
 
 		# Ordering is important here. We give precendece
 		# to local config over user config and defaults.

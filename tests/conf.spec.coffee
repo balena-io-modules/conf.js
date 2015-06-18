@@ -168,28 +168,28 @@ describe 'ConfJS:', ->
 
 	describe 'given a supplied user config default', ->
 
-		options =
-			userConfig: '/Users/johndoe/.conf/config'
-			default:
-				remoteUrl: 'https://google.com'
+		beforeEach ->
 
-		filesystem =
-			userConfig:
-				name: options.userConfig
-				contents: JSON.stringify
+			@options =
+				userConfig: '/Users/johndoe/.conf/config'
+				default:
 					remoteUrl: 'https://google.com'
 
-		beforeEach ->
-			mockfsInit(filesystem)
-			@conf = new ConfJS(options)
-
-		afterEach ->
-			mockFs.restore()
+			@filesystem =
+				userConfig:
+					name: @options.userConfig
+					contents: JSON.stringify
+						remoteUrl: 'https://yahoo.com'
 
 		it 'should load that file and extend _data', ->
-			parsedUserConfig = JSON.parse(filesystem.userConfig.contents)
-			expectedResult = _.extend(_.cloneDeep(options.default), parsedUserConfig)
-			expect(@conf._data).to.deep.equal(expectedResult)
+			mockfsInit(@filesystem)
+			conf = new ConfJS(@options)
+			parsedUserConfig = JSON.parse(@filesystem.userConfig.contents)
+			expectedResult = _.extend(_.cloneDeep(@options.default), parsedUserConfig)
+			expect(conf._data).to.deep.equal(expectedResult)
+			expect(conf._data.remoteUrl).to.equal('https://yahoo.com')
+			expect(conf._options.default.remoteUrl).to.equal('https://google.com')
+			mockFs.restore()
 
 	describe 'given a supplied user and local config', ->
 

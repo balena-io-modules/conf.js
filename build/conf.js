@@ -14,7 +14,7 @@ ConfJS = (function() {
       parse: JSON.parse,
       encoding: 'utf8'
     });
-    this._data = this._options["default"] || {};
+    this._data = _.cloneDeep(this._options["default"]) || {};
     this.extendWithFile(this._options.userConfig);
     this.extendWithFile(this._getLocalConfigPath());
   }
