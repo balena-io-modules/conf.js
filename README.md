@@ -150,6 +150,10 @@ TODO
 ChangeLog
 ---------
 
+### v1.1.1
+
+- Fix issue that prevented original default settings to be preserved.
+
 ### v1.1.0
 
 - The `get()` function returns all settings if no key.
